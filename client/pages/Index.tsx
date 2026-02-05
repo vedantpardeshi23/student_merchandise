@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCart, Star, Heart, Truck, Shield, Zap } from "lucide-react";
 import Footer from "@/components/Footer";
+import "@/styles/homepage.css";
 
 interface Product {
   id: number;
@@ -107,237 +108,341 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-white">
-      <style>{`
-        @keyframes slideDown {
-          from { opacity: 0; transform: translateY(-20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideUp {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-12px); }
-        }
-        @keyframes shimmer {
-          0% { background-position: -1000px 0; }
-          100% { background-position: 1000px 0; }
-        }
-        
-        .animate-slide-down { animation: slideDown 0.6s ease-out; }
-        .animate-slide-up { animation: slideUp 0.6s ease-out forwards; }
-        .animate-float { animation: float 3s ease-in-out infinite; }
-        
-        .product-card {
-          border-radius: 16px;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          position: relative;
-          background: white;
-        }
-        .product-card:hover {
-          transform: translateY(-10px);
-          box-shadow: 0 25px 50px rgba(26, 58, 92, 0.15);
-        }
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+          <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-700 bg-clip-text text-transparent">
+            College Merch
+          </Link>
+          <button className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors">
+            <ShoppingCart className="w-6 h-6 text-primary" />
+            {cartItems.length > 0 && (
+              <span className="absolute top-0 right-0 bg-accent text-accent-foreground text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                {cartItems.length}
+              </span>
+            )}
+          </button>
+        </div>
+      </header>
 
-        .product-image-wrapper {
-          position: relative;
-          overflow: hidden;
-          border-radius: 16px 16px 0 0;
-          aspect-ratio: 1;
-          background: linear-gradient(135deg, #f5f7fa 0%, #e8f0f8 100%);
-        }
+      {/* Hero Section */}
+      <section className="hero-gradient text-primary-foreground py-20 md:py-32 px-4 relative">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            {/* Hero Content */}
+            <div className="animate-slide-down">
+              <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+                Official College Merchandise
+              </h1>
+              <p className="text-xl md:text-2xl opacity-90 mb-8 leading-relaxed">
+                Wear your campus pride with style. Shop authentic college apparel and accessories designed for students, by students.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <a
+                  href="#products"
+                  className="btn-accent inline-flex justify-center md:justify-start"
+                >
+                  <ShoppingCart size={20} />
+                  Shop Now
+                </a>
+                <a
+                  href="#offers"
+                  className="btn-secondary inline-flex justify-center md:justify-start"
+                >
+                  View Collection
+                </a>
+              </div>
+            </div>
 
-        .product-image-wrapper img {
-          transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
+            {/* Hero Image */}
+            <div className="relative h-80 md:h-96 rounded-2xl overflow-hidden shadow-2xl animate-slide-up">
+              <img
+                src="https://images.unsplash.com/photo-1529148482759-b8ffc8d8e59d?w=600&h=600&fit=crop&q=80"
+                alt="Students wearing college merchandise"
+                className="w-full h-full object-cover animate-float"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
 
-        .product-card:hover .product-image-wrapper img {
-          transform: scale(1.1);
-        }
+      {/* Trust Badges */}
+      <section className="bg-gradient-to-r from-blue-50 to-orange-50 py-8 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="flex items-center justify-center md:justify-start gap-4">
+              <div className="feature-icon">
+                <Truck size={28} />
+              </div>
+              <div>
+                <p className="font-semibold text-primary">Free Shipping</p>
+                <p className="text-sm text-gray-600">On orders above ₹999</p>
+              </div>
+            </div>
+            <div className="flex items-center justify-center gap-4">
+              <div className="feature-icon">
+                <Shield size={28} />
+              </div>
+              <div>
+                <p className="font-semibold text-primary">100% Authentic</p>
+                <p className="text-sm text-gray-600">Official college merch</p>
+              </div>
+            </div>
+            <div className="flex items-center justify-center md:justify-end gap-4">
+              <div className="feature-icon">
+                <Zap size={28} />
+              </div>
+              <div>
+                <p className="font-semibold text-primary">Fast Dispatch</p>
+                <p className="text-sm text-gray-600">Order before 2 PM for today</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        .wish-btn {
-          position: absolute;
-          top: 12px;
-          left: 12px;
-          background: white;
-          border: none;
-          width: 44px;
-          height: 44px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          z-index: 10;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+      {/* Products Section */}
+      <section id="products" className="py-20 md:py-28 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
+              Featured Products
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Explore our handpicked collection of premium college merchandise designed for the modern student
+            </p>
+          </div>
 
-        .wish-btn:hover {
-          background: #1a3a5c;
-          transform: scale(1.15);
-        }
+          {/* Product Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {products.map((product) => (
+              <div key={product.id} className="product-card">
+                {/* Product Image */}
+                <div className="product-image-wrapper">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    loading="lazy"
+                  />
+                  <button
+                    onClick={() => toggleWishlist(product.id)}
+                    className={`wish-btn ${wishlist.includes(product.id) ? 'active' : ''}`}
+                  >
+                    <Heart size={20} />
+                  </button>
+                </div>
 
-        .wish-btn.active {
-          background: linear-gradient(135deg, #ff9d4d 0%, #ff8c2f 100%);
-          color: white;
-        }
+                {/* Product Info */}
+                <div className="p-5">
+                  <h3 className="font-bold text-lg text-primary mb-2">
+                    {product.name}
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    {product.description}
+                  </p>
 
-        .wish-btn.active svg {
-          fill: currentColor;
-        }
+                  {/* Rating */}
+                  <div className="rating-badge mb-4">
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          size={14}
+                          className={
+                            i < Math.floor(product.rating)
+                              ? "fill-accent text-accent"
+                              : "text-gray-300"
+                          }
+                        />
+                      ))}
+                    </div>
+                    <span className="text-sm font-semibold text-gray-700">
+                      {product.rating}
+                    </span>
+                  </div>
 
-        .offer-card {
-          position: relative;
-          overflow: hidden;
-          background: linear-gradient(135deg, #fff9f5 0%, #fff0e6 100%);
-          border: 2px solid rgba(255, 157, 77, 0.15);
-          border-radius: 16px;
-          transition: all 0.3s ease;
-          padding: 2rem;
-        }
+                  {/* Price */}
+                  <p className="text-3xl font-bold text-primary mb-4">
+                    ₹{product.price}
+                  </p>
 
-        .offer-card:hover {
-          border-color: rgba(255, 157, 77, 0.4);
-          transform: translateY(-6px);
-          box-shadow: 0 20px 40px rgba(255, 157, 77, 0.12);
-        }
+                  {/* Buttons */}
+                  <div className="space-y-3">
+                    <Link
+                      to={`/product/${product.id}`}
+                      className="btn-secondary block text-center w-full"
+                    >
+                      View Details
+                    </Link>
+                    <button
+                      onClick={() => handleAddToCart(product.id)}
+                      className="btn-accent w-full justify-center"
+                    >
+                      <ShoppingCart size={18} />
+                      Add to Cart
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-        .offer-badge {
-          display: inline-block;
-          background: linear-gradient(135deg, #ff9d4d 0%, #ff8c2f 100%);
-          color: white;
-          padding: 8px 16px;
-          border-radius: 8px;
-          font-weight: 600;
-          font-size: 14px;
-          margin-bottom: 12px;
-          box-shadow: 0 4px 15px rgba(255, 157, 77, 0.3);
-        }
+      {/* Offers Section */}
+      <section id="offers" className="py-20 md:py-28 px-4 bg-gradient-to-b from-blue-50 to-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
+              Special Offers
+            </h2>
+            <p className="text-lg text-gray-600">
+              Limited-time deals and exclusive discounts for students
+            </p>
+          </div>
 
-        .input-field input,
-        .input-field textarea {
-          width: 100%;
-          padding: 14px 16px;
-          border: 2px solid #e8f0f8;
-          border-radius: 10px;
-          font-family: inherit;
-          font-size: 14px;
-          transition: all 0.3s ease;
-          background: #f8fafb;
-        }
+          {/* Offers Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {offers.map((offer) => (
+              <div key={offer.id} className="offer-card p-8">
+                <div className="offer-badge">
+                  {offer.discount}
+                </div>
 
-        .input-field input:focus,
-        .input-field textarea:focus {
-          outline: none;
-          border-color: #ff9d4d;
-          background: white;
-          box-shadow: 0 0 0 4px rgba(255, 157, 77, 0.1);
-        }
+                <h3 className="text-2xl font-bold text-primary mb-3">
+                  {offer.title}
+                </h3>
 
-        .btn-primary {
-          background: linear-gradient(135deg, #1a3a5c 0%, #2d5a8c 100%);
-          color: white;
-          font-weight: 600;
-          padding: 14px 32px;
-          border-radius: 10px;
-          border: none;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
-          box-shadow: 0 4px 15px rgba(26, 58, 92, 0.2);
-        }
+                {offer.description && (
+                  <p className="text-gray-600 mb-6">{offer.description}</p>
+                )}
 
-        .btn-primary:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(26, 58, 92, 0.3);
-        }
+                {offer.originalPrice && (
+                  <div className="space-y-2 mb-6">
+                    <p className="text-gray-500 line-through text-sm">
+                      {offer.originalPrice}
+                    </p>
+                    <p className="text-3xl font-bold text-primary">
+                      {offer.comboPrice}
+                    </p>
+                  </div>
+                )}
 
-        .btn-accent {
-          background: linear-gradient(135deg, #ff9d4d 0%, #ff8c2f 100%);
-          color: white;
-          font-weight: 600;
-          padding: 12px 24px;
-          border-radius: 10px;
-          border: none;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
-          box-shadow: 0 4px 15px rgba(255, 157, 77, 0.2);
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-        }
+                <button className="btn-accent w-full justify-center">
+                  Shop Offer
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-        .btn-accent:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(255, 157, 77, 0.3);
-        }
+      {/* Contact Section */}
+      <section id="contact" className="py-20 md:py-28 px-4">
+        <div className="max-w-2xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
+              Get In Touch
+            </h2>
+            <p className="text-lg text-gray-600">
+              Questions about bulk orders or custom merchandise? We're here to help!
+            </p>
+          </div>
 
-        .btn-secondary {
-          background: #f5f7fa;
-          color: #1a3a5c;
-          font-weight: 600;
-          padding: 12px 24px;
-          border-radius: 10px;
-          border: 2px solid #e8f0f8;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          text-align: center;
-          display: inline-block;
-        }
+          {/* Contact Form */}
+          <form
+            onSubmit={handleFormSubmit}
+            className="bg-gradient-to-br from-blue-50 to-orange-50 rounded-2xl shadow-lg p-8 border border-blue-100"
+          >
+            {/* Name */}
+            <div className="mb-6 input-field">
+              <label className="block text-sm font-semibold text-primary mb-3">
+                Full Name
+              </label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleFormChange}
+                required
+                placeholder="Your name"
+              />
+            </div>
 
-        .btn-secondary:hover {
-          border-color: #1a3a5c;
-          background: #1a3a5c;
-          color: white;
-        }
+            {/* Email */}
+            <div className="mb-6 input-field">
+              <label className="block text-sm font-semibold text-primary mb-3">
+                Email Address
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleFormChange}
+                required
+                placeholder="your.email@example.com"
+              />
+            </div>
 
-        .feature-item {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 12px;
-          text-align: center;
-        }
+            {/* Phone */}
+            <div className="mb-6 input-field">
+              <label className="block text-sm font-semibold text-primary mb-3">
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleFormChange}
+                required
+                placeholder="+91 98765 43210"
+              />
+            </div>
 
-        .feature-icon {
-          width: 56px;
-          height: 56px;
-          border-radius: 12px;
-          background: linear-gradient(135deg, rgba(26, 58, 92, 0.1) 0%, rgba(255, 157, 77, 0.1) 100%);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #1a3a5c;
-        }
+            {/* Message */}
+            <div className="mb-8 input-field">
+              <label className="block text-sm font-semibold text-primary mb-3">
+                Message
+              </label>
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleFormChange}
+                required
+                rows={5}
+                placeholder="Tell us about your inquiry or bulk order needs..."
+              ></textarea>
+              <p className="text-xs text-gray-500 mt-2">
+                💡 Tip: Mention bulk orders or custom merchandise requests for faster response
+              </p>
+            </div>
 
-        .hero-section {
-          background: linear-gradient(135deg, #1a3a5c 0%, #2d5a8c 100%);
-          position: relative;
-          overflow: hidden;
-        }
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="btn-primary w-full"
+            >
+              Send Message
+            </button>
+          </form>
 
-        .hero-section::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          background: radial-gradient(circle at 20% 50%, rgba(255, 157, 77, 0.08) 0%, transparent 50%),
-                      radial-gradient(circle at 80% 80%, rgba(255, 157, 77, 0.04) 0%, transparent 50%);
-          pointer-events: none;
-        }
+          {/* Contact Info */}
+          <div className="mt-12 text-center">
+            <p className="text-gray-600 mb-2">
+              Or email us directly:
+            </p>
+            <a
+              href="mailto:merch@college.edu"
+              className="text-2xl font-bold text-accent hover:opacity-80 transition-opacity"
+            >
+              merch@college.edu
+            </a>
+          </div>
+        </div>
+      </section>
 
-        .rating-stars {
-          display: flex;
-          gap: 3px;
-        }
-      `}
+      {/* Footer */}
+      <Footer />
+    </div>
+  );
+}
