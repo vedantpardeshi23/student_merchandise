@@ -19,7 +19,7 @@ const products: Product[] = [
     description: "Cozy and stylish hoodie perfect for campus",
     price: 1499,
     image:
-      "https://images.unsplash.com/photo-1556821840-108801ae4e8f?w=500&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1556821840-108801ae4e8f?w=600&h=600&fit=crop&q=80",
     rating: 4.8,
   },
   {
@@ -28,7 +28,7 @@ const products: Product[] = [
     description: "Classic cotton tee with college branding",
     price: 699,
     image:
-      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=600&fit=crop&q=80",
     rating: 4.6,
   },
   {
@@ -37,7 +37,7 @@ const products: Product[] = [
     description: "Structured cap with embroidered logo",
     price: 399,
     image:
-      "https://images.unsplash.com/photo-1588850561407-ed78c106e89b?w=500&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1564564244526-a46f66d6c5a3?w=600&h=600&fit=crop&q=80",
     rating: 4.5,
   },
   {
@@ -46,7 +46,7 @@ const products: Product[] = [
     description: "Spacious canvas bag for books and essentials",
     price: 499,
     image:
-      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1595777707802-5b140b63a205?w=600&h=600&fit=crop&q=80",
     rating: 4.7,
   },
 ];
