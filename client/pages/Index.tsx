@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ShoppingCart, Star, Heart, Search, ChevronDown, Plus } from "lucide-react";
+import {
+  ShoppingCart,
+  Star,
+  Heart,
+  Search,
+  ChevronDown,
+  Plus,
+} from "lucide-react";
 import Footer from "@/components/Footer";
 import "@/styles/homepage.css";
 
@@ -21,7 +28,8 @@ const products: Product[] = [
     name: "College Hoodie",
     description: "Cozy and stylish hoodie",
     price: 1499,
-    image: "https://images.unsplash.com/photo-1556821840-108801ae4e8f?w=600&h=600&fit=crop&q=80",
+    image:
+      "https://images.unsplash.com/photo-1556821840-108801ae4e8f?w=600&h=600&fit=crop&q=80",
     rating: 4.8,
     isnew: true,
   },
@@ -30,7 +38,8 @@ const products: Product[] = [
     name: "College T-Shirt",
     description: "Classic cotton tee",
     price: 699,
-    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=600&fit=crop&q=80",
+    image:
+      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=600&fit=crop&q=80",
     rating: 4.6,
   },
   {
@@ -38,7 +47,8 @@ const products: Product[] = [
     name: "College Cap",
     description: "Structured embroidered cap",
     price: 399,
-    image: "https://images.unsplash.com/photo-1564564244526-a46f66d6c5a3?w=600&h=600&fit=crop&q=80",
+    image:
+      "https://images.unsplash.com/photo-1564564244526-a46f66d6c5a3?w=600&h=600&fit=crop&q=80",
     rating: 4.5,
   },
   {
@@ -46,7 +56,8 @@ const products: Product[] = [
     name: "College Tote Bag",
     description: "Spacious canvas bag",
     price: 499,
-    image: "https://images.unsplash.com/photo-1595777707802-5b140b63a205?w=600&h=600&fit=crop&q=80",
+    image:
+      "https://images.unsplash.com/photo-1595777707802-5b140b63a205?w=600&h=600&fit=crop&q=80",
     rating: 4.7,
   },
 ];
@@ -62,23 +73,28 @@ const categories = [
 const faqs = [
   {
     question: "How do I place an order?",
-    answer: "Simply browse our collection, select your size and color, add items to cart, and proceed to checkout. We offer secure payment options and free shipping on orders above ₹999.",
+    answer:
+      "Simply browse our collection, select your size and color, add items to cart, and proceed to checkout. We offer secure payment options and free shipping on orders above ₹999.",
   },
   {
     question: "What is your return policy?",
-    answer: "We offer a 30-day money-back guarantee on all products. If you're not satisfied with your purchase, simply reach out to us at merch@college.edu with your order details.",
+    answer:
+      "We offer a 30-day money-back guarantee on all products. If you're not satisfied with your purchase, simply reach out to us at merch@college.edu with your order details.",
   },
   {
     question: "Do you offer student discounts?",
-    answer: "Yes! We offer 15% off for verified students. Just show your valid student ID during checkout to claim your discount.",
+    answer:
+      "Yes! We offer 15% off for verified students. Just show your valid student ID during checkout to claim your discount.",
   },
   {
     question: "How long does delivery take?",
-    answer: "We dispatch orders placed before 2 PM on the same day. Standard delivery takes 3-5 business days within the city and 5-7 days for other areas.",
+    answer:
+      "We dispatch orders placed before 2 PM on the same day. Standard delivery takes 3-5 business days within the city and 5-7 days for other areas.",
   },
   {
     question: "Can I customize my merchandise?",
-    answer: "Absolutely! For bulk or custom orders, please contact us at merch@college.edu or fill out our contact form. We'll be happy to help with personalized designs.",
+    answer:
+      "Absolutely! For bulk or custom orders, please contact us at merch@college.edu or fill out our contact form. We'll be happy to help with personalized designs.",
   },
 ];
 
@@ -95,13 +111,13 @@ export default function Index() {
 
   const toggleWishlist = (productId: number) => {
     if (wishlist.includes(productId)) {
-      setWishlist(wishlist.filter(id => id !== productId));
+      setWishlist(wishlist.filter((id) => id !== productId));
     } else {
       setWishlist([...wishlist, productId]);
     }
   };
 
-  const newProducts = products.filter(p => p.isnew);
+  const newProducts = products.filter((p) => p.isnew);
   const allProducts = selectedCategory === "all" ? products : products;
 
   return (
@@ -113,7 +129,7 @@ export default function Index() {
             <Link to="/" className="text-2xl font-bold text-primary">
               College Merch
             </Link>
-            
+
             {/* Search Bar */}
             <div className="hidden md:flex flex-1 max-w-md">
               <div className="relative w-full">
@@ -124,7 +140,10 @@ export default function Index() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full px-4 py-2 bg-gray-100 rounded-lg border border-gray-300 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"
                 />
-                <Search size={20} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <Search
+                  size={20}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                />
               </div>
             </div>
 
@@ -164,7 +183,8 @@ export default function Index() {
             Official College Merchandise
           </h1>
           <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Wear your campus pride with authentic college apparel designed for students, by students
+            Wear your campus pride with authentic college apparel designed for
+            students, by students
           </p>
           <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold transition-all inline-flex items-center gap-2">
             <ShoppingCart size={20} />
@@ -182,9 +202,14 @@ export default function Index() {
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
                   Just In
                 </h2>
-                <p className="text-gray-600">Discover new products hot off the press 🔥</p>
+                <p className="text-gray-600">
+                  Discover new products hot off the press 🔥
+                </p>
               </div>
-              <Link to="/" className="text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-1">
+              <Link
+                to="/"
+                className="text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-1"
+              >
                 View more <ChevronDown size={18} className="rotate-[-90deg]" />
               </Link>
             </div>
@@ -238,22 +263,32 @@ export default function Index() {
               <ul className="space-y-4 text-gray-700">
                 <li className="flex items-center gap-3">
                   <span className="text-2xl">📦</span>
-                  <span><strong>Combo Deal:</strong> Hoodie + T-Shirt for ₹1,798 (Save ₹400)</span>
+                  <span>
+                    <strong>Combo Deal:</strong> Hoodie + T-Shirt for ₹1,798
+                    (Save ₹400)
+                  </span>
                 </li>
                 <li className="flex items-center gap-3">
                   <span className="text-2xl">🎓</span>
-                  <span><strong>Student Discount:</strong> 15% off with valid student ID</span>
+                  <span>
+                    <strong>Student Discount:</strong> 15% off with valid
+                    student ID
+                  </span>
                 </li>
                 <li className="flex items-center gap-3">
                   <span className="text-2xl">🚚</span>
-                  <span><strong>Free Shipping:</strong> On orders above ₹999</span>
+                  <span>
+                    <strong>Free Shipping:</strong> On orders above ₹999
+                  </span>
                 </li>
               </ul>
             </div>
             <div className="bg-gradient-to-br from-primary to-blue-700 text-white rounded-lg p-8 text-center">
               <p className="text-lg font-semibold mb-4">Limited Time Offer</p>
               <p className="text-4xl font-bold mb-4">15% Off</p>
-              <p className="text-sm opacity-90">Use code COLLEGE15 at checkout</p>
+              <p className="text-sm opacity-90">
+                Use code COLLEGE15 at checkout
+              </p>
             </div>
           </div>
         </div>
@@ -273,7 +308,9 @@ export default function Index() {
                 className="bg-white rounded-lg border border-gray-200 overflow-hidden"
               >
                 <button
-                  onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
+                  onClick={() =>
+                    setExpandedFaq(expandedFaq === index ? null : index)
+                  }
                   className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
                 >
                   <h3 className="text-lg font-semibold text-gray-900 text-left">

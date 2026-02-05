@@ -1,5 +1,13 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, ShoppingCart, Star, Heart, Truck, Shield, Check } from "lucide-react";
+import {
+  ArrowLeft,
+  ShoppingCart,
+  Star,
+  Heart,
+  Truck,
+  Shield,
+  Check,
+} from "lucide-react";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 import "@/styles/homepage.css";
@@ -21,9 +29,11 @@ const products: { [key: number]: Product } = {
     id: 1,
     name: "College Hoodie",
     description: "Cozy and stylish hoodie",
-    fullDescription: "Our premium college hoodie is made from 100% cotton with a soft fleece lining. Perfect for staying warm on campus. Features embroidered college logo and comfortable fit.",
+    fullDescription:
+      "Our premium college hoodie is made from 100% cotton with a soft fleece lining. Perfect for staying warm on campus. Features embroidered college logo and comfortable fit.",
     price: 1499,
-    image: "https://images.unsplash.com/photo-1556821840-108801ae4e8f?w=800&h=800&fit=crop&q=80",
+    image:
+      "https://images.unsplash.com/photo-1556821840-108801ae4e8f?w=800&h=800&fit=crop&q=80",
     rating: 4.8,
     colors: [
       { name: "Navy Blue", hex: "#1a3a5c" },
@@ -37,9 +47,11 @@ const products: { [key: number]: Product } = {
     id: 2,
     name: "College T-Shirt",
     description: "Classic cotton tee",
-    fullDescription: "A timeless classic, our college t-shirt is made from premium quality cotton. Comfortable, durable, and perfect for everyday wear. Features classic college branding on the front.",
+    fullDescription:
+      "A timeless classic, our college t-shirt is made from premium quality cotton. Comfortable, durable, and perfect for everyday wear. Features classic college branding on the front.",
     price: 699,
-    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&h=800&fit=crop&q=80",
+    image:
+      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&h=800&fit=crop&q=80",
     rating: 4.6,
     colors: [
       { name: "White", hex: "#ffffff" },
@@ -53,9 +65,11 @@ const products: { [key: number]: Product } = {
     id: 3,
     name: "College Cap",
     description: "Structured embroidered cap",
-    fullDescription: "Stay stylish and protected from the sun with our embroidered college cap. Adjustable strap for perfect fit. Premium fabric with excellent durability.",
+    fullDescription:
+      "Stay stylish and protected from the sun with our embroidered college cap. Adjustable strap for perfect fit. Premium fabric with excellent durability.",
     price: 399,
-    image: "https://images.unsplash.com/photo-1564564244526-a46f66d6c5a3?w=800&h=800&fit=crop&q=80",
+    image:
+      "https://images.unsplash.com/photo-1564564244526-a46f66d6c5a3?w=800&h=800&fit=crop&q=80",
     rating: 4.5,
     colors: [
       { name: "Navy Blue", hex: "#1a3a5c" },
@@ -68,9 +82,11 @@ const products: { [key: number]: Product } = {
     id: 4,
     name: "College Tote Bag",
     description: "Spacious canvas bag",
-    fullDescription: "Our spacious college tote bag is perfect for carrying books, laptops, and daily essentials. Made from durable canvas with comfortable handles and college branding.",
+    fullDescription:
+      "Our spacious college tote bag is perfect for carrying books, laptops, and daily essentials. Made from durable canvas with comfortable handles and college branding.",
     price: 499,
-    image: "https://images.unsplash.com/photo-1595777707802-5b140b63a205?w=800&h=800&fit=crop&q=80",
+    image:
+      "https://images.unsplash.com/photo-1595777707802-5b140b63a205?w=800&h=800&fit=crop&q=80",
     rating: 4.7,
     colors: [
       { name: "Navy Blue", hex: "#1a3a5c" },
@@ -187,14 +203,19 @@ export default function ProductDetail() {
 
             {/* Price Section */}
             <div className="mb-8 pb-8 border-b border-gray-200">
-              <p className="text-5xl font-bold text-gray-900">₹{product.price}</p>
-              <p className="text-sm text-gray-600 mt-2">Inclusive of all taxes</p>
+              <p className="text-5xl font-bold text-gray-900">
+                ₹{product.price}
+              </p>
+              <p className="text-sm text-gray-600 mt-2">
+                Inclusive of all taxes
+              </p>
             </div>
 
             {/* Color Selection */}
             <div className="mb-8">
               <h3 className="text-lg font-bold text-gray-900 mb-4">
-                Color: <span className="text-gray-700">{selectedColor?.name}</span>
+                Color:{" "}
+                <span className="text-gray-700">{selectedColor?.name}</span>
               </h3>
               <div className="flex gap-3">
                 {product.colors.map((color) => (
@@ -280,24 +301,37 @@ export default function ProductDetail() {
             {/* Benefits */}
             <div className="space-y-4 pt-8 border-t border-gray-200">
               <div className="flex items-start gap-3">
-                <Check size={24} className="text-green-600 mt-1 flex-shrink-0" />
+                <Check
+                  size={24}
+                  className="text-green-600 mt-1 flex-shrink-0"
+                />
                 <div>
                   <p className="font-semibold text-gray-900">Free shipping</p>
                   <p className="text-sm text-gray-600">On orders above ₹999</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <Check size={24} className="text-green-600 mt-1 flex-shrink-0" />
+                <Check
+                  size={24}
+                  className="text-green-600 mt-1 flex-shrink-0"
+                />
                 <div>
-                  <p className="font-semibold text-gray-900">30-day guarantee</p>
+                  <p className="font-semibold text-gray-900">
+                    30-day guarantee
+                  </p>
                   <p className="text-sm text-gray-600">Money-back guarantee</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <Check size={24} className="text-green-600 mt-1 flex-shrink-0" />
+                <Check
+                  size={24}
+                  className="text-green-600 mt-1 flex-shrink-0"
+                />
                 <div>
                   <p className="font-semibold text-gray-900">Fast dispatch</p>
-                  <p className="text-sm text-gray-600">Same day shipping for orders before 2 PM</p>
+                  <p className="text-sm text-gray-600">
+                    Same day shipping for orders before 2 PM
+                  </p>
                 </div>
               </div>
             </div>

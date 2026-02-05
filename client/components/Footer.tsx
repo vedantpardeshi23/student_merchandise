@@ -12,7 +12,9 @@ export default function Footer() {
             <h3 className="text-2xl font-bold bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
               College Merch
             </h3>
-            <p className="text-sm mt-3 opacity-90">Made by students, for students</p>
+            <p className="text-sm mt-3 opacity-90">
+              Made by students, for students
+            </p>
           </div>
 
           {/* Quick Links */}
@@ -22,10 +24,16 @@ export default function Footer() {
               <Link to="/" className="hover:text-accent transition-colors">
                 Shop
               </Link>
-              <a href="#contact" className="hover:text-accent transition-colors block">
+              <a
+                href="#contact"
+                className="hover:text-accent transition-colors block"
+              >
                 Contact
               </a>
-              <a href="#products" className="hover:text-accent transition-colors block">
+              <a
+                href="#products"
+                className="hover:text-accent transition-colors block"
+              >
                 Products
               </a>
             </nav>
@@ -81,7 +89,8 @@ export default function Footer() {
 
           {/* Copyright */}
           <p className="text-center text-xs opacity-75">
-            © 2024 College Merch. All rights reserved. | Made with ❤️ by students
+            © 2024 College Merch. All rights reserved. | Made with ❤️ by
+            students
           </p>
         </div>
       </div>
