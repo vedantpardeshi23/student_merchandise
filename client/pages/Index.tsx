@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ShoppingCart, Star, Heart, Truck, Shield, Zap } from "lucide-react";
+import { ShoppingCart, Star, Heart, Search, ChevronDown, Plus } from "lucide-react";
 import Footer from "@/components/Footer";
 import "@/styles/homepage.css";
 
@@ -11,21 +11,24 @@ interface Product {
   price: number;
   image: string;
   rating: number;
+  discount?: number;
+  isnew?: boolean;
 }
 
 const products: Product[] = [
   {
     id: 1,
     name: "College Hoodie",
-    description: "Cozy and stylish hoodie perfect for campus",
+    description: "Cozy and stylish hoodie",
     price: 1499,
     image: "https://images.unsplash.com/photo-1556821840-108801ae4e8f?w=600&h=600&fit=crop&q=80",
     rating: 4.8,
+    isnew: true,
   },
   {
     id: 2,
     name: "College T-Shirt",
-    description: "Classic cotton tee with college branding",
+    description: "Classic cotton tee",
     price: 699,
     image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=600&fit=crop&q=80",
     rating: 4.6,
@@ -33,7 +36,7 @@ const products: Product[] = [
   {
     id: 3,
     name: "College Cap",
-    description: "Structured cap with embroidered logo",
+    description: "Structured embroidered cap",
     price: 399,
     image: "https://images.unsplash.com/photo-1564564244526-a46f66d6c5a3?w=600&h=600&fit=crop&q=80",
     rating: 4.5,
@@ -41,44 +44,50 @@ const products: Product[] = [
   {
     id: 4,
     name: "College Tote Bag",
-    description: "Spacious canvas bag for books and essentials",
+    description: "Spacious canvas bag",
     price: 499,
     image: "https://images.unsplash.com/photo-1595777707802-5b140b63a205?w=600&h=600&fit=crop&q=80",
     rating: 4.7,
   },
 ];
 
-const offers = [
+const categories = [
+  { name: "All Products", id: "all" },
+  { name: "Hoodies & Jackets", id: "hoodies" },
+  { name: "T-Shirts", id: "tshirts" },
+  { name: "Caps & Hats", id: "caps" },
+  { name: "Bags & Accessories", id: "bags" },
+];
+
+const faqs = [
   {
-    id: 1,
-    title: "Hoodie + T-Shirt Combo",
-    discount: "Save ₹400",
-    originalPrice: "₹2,198",
-    comboPrice: "₹1,798",
+    question: "How do I place an order?",
+    answer: "Simply browse our collection, select your size and color, add items to cart, and proceed to checkout. We offer secure payment options and free shipping on orders above ₹999.",
   },
   {
-    id: 2,
-    title: "Student Discount",
-    discount: "15% off",
-    description: "Valid with student ID",
+    question: "What is your return policy?",
+    answer: "We offer a 30-day money-back guarantee on all products. If you're not satisfied with your purchase, simply reach out to us at merch@college.edu with your order details.",
   },
   {
-    id: 3,
-    title: "Limited Time Offer",
-    discount: "Free shipping",
-    description: "On orders above ₹999",
+    question: "Do you offer student discounts?",
+    answer: "Yes! We offer 15% off for verified students. Just show your valid student ID during checkout to claim your discount.",
+  },
+  {
+    question: "How long does delivery take?",
+    answer: "We dispatch orders placed before 2 PM on the same day. Standard delivery takes 3-5 business days within the city and 5-7 days for other areas.",
+  },
+  {
+    question: "Can I customize my merchandise?",
+    answer: "Absolutely! For bulk or custom orders, please contact us at merch@college.edu or fill out our contact form. We'll be happy to help with personalized designs.",
   },
 ];
 
 export default function Index() {
   const [cartItems, setCartItems] = useState<number[]>([]);
   const [wishlist, setWishlist] = useState<number[]>([]);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleAddToCart = (productId: number) => {
     setCartItems([...cartItems, productId]);
@@ -92,357 +101,313 @@ export default function Index() {
     }
   };
 
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-    setFormData({ name: "", email: "", phone: "", message: "" });
-    alert("Thank you for your message! We'll get back to you soon.");
-  };
+  const newProducts = products.filter(p => p.isnew);
+  const allProducts = selectedCategory === "all" ? products : products;
 
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-700 bg-clip-text text-transparent">
-            College Merch
-          </Link>
-          <button className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors">
-            <ShoppingCart className="w-6 h-6 text-primary" />
-            {cartItems.length > 0 && (
-              <span className="absolute top-0 right-0 bg-accent text-accent-foreground text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                {cartItems.length}
-              </span>
-            )}
-          </button>
+      <header className="sticky top-0 z-50 bg-white shadow-md border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between gap-4 mb-4">
+            <Link to="/" className="text-2xl font-bold text-primary">
+              College Merch
+            </Link>
+            
+            {/* Search Bar */}
+            <div className="hidden md:flex flex-1 max-w-md">
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full px-4 py-2 bg-gray-100 rounded-lg border border-gray-300 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"
+                />
+                <Search size={20} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              </div>
+            </div>
+
+            <button className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors">
+              <ShoppingCart className="w-6 h-6 text-primary" />
+              {cartItems.length > 0 && (
+                <span className="absolute top-0 right-0 bg-accent text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {cartItems.length}
+                </span>
+              )}
+            </button>
+          </div>
+
+          {/* Category Navigation */}
+          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setSelectedCategory(cat.id)}
+                className={`px-4 py-2 rounded-full font-medium whitespace-nowrap transition-all ${
+                  selectedCategory === cat.id
+                    ? "bg-primary text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                {cat.name}
+              </button>
+            ))}
+          </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="hero-gradient text-primary-foreground py-20 md:py-32 px-4 relative">
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            {/* Hero Content */}
-            <div className="animate-slide-down">
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-                Official College Merchandise
-              </h1>
-              <p className="text-xl md:text-2xl opacity-90 mb-8 leading-relaxed">
-                Wear your campus pride with style. Shop authentic college apparel and accessories designed for students, by students.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <a
-                  href="#products"
-                  className="btn-accent inline-flex justify-center md:justify-start"
-                >
-                  <ShoppingCart size={20} />
-                  Shop Now
-                </a>
-                <a
-                  href="#offers"
-                  className="btn-secondary inline-flex justify-center md:justify-start"
-                >
-                  View Collection
-                </a>
-              </div>
-            </div>
-
-            {/* Hero Image */}
-            <div className="relative h-80 md:h-96 rounded-2xl overflow-hidden shadow-2xl animate-slide-up">
-              <img
-                src="https://images.unsplash.com/photo-1529148482759-b8ffc8d8e59d?w=600&h=600&fit=crop&q=80"
-                alt="Students wearing college merchandise"
-                className="w-full h-full object-cover animate-float"
-              />
-            </div>
-          </div>
+      <section className="bg-gray-900 text-white py-16 md:py-24 px-4">
+        <div className="max-w-7xl mx-auto text-center">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+            Official College Merchandise
+          </h1>
+          <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            Wear your campus pride with authentic college apparel designed for students, by students
+          </p>
+          <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold transition-all inline-flex items-center gap-2">
+            <ShoppingCart size={20} />
+            Shop Now
+          </button>
         </div>
       </section>
 
-      {/* Trust Badges */}
-      <section className="bg-gradient-to-r from-blue-50 to-orange-50 py-8 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="flex items-center justify-center md:justify-start gap-4">
-              <div className="feature-icon">
-                <Truck size={28} />
-              </div>
+      {/* Just In Section */}
+      {newProducts.length > 0 && (
+        <section className="py-12 md:py-16 px-4 bg-white">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-center justify-between mb-8">
               <div>
-                <p className="font-semibold text-primary">Free Shipping</p>
-                <p className="text-sm text-gray-600">On orders above ₹999</p>
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+                  Just In
+                </h2>
+                <p className="text-gray-600">Discover new products hot off the press 🔥</p>
               </div>
+              <Link to="/" className="text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-1">
+                View more <ChevronDown size={18} className="rotate-[-90deg]" />
+              </Link>
             </div>
-            <div className="flex items-center justify-center gap-4">
-              <div className="feature-icon">
-                <Shield size={28} />
-              </div>
-              <div>
-                <p className="font-semibold text-primary">100% Authentic</p>
-                <p className="text-sm text-gray-600">Official college merch</p>
-              </div>
-            </div>
-            <div className="flex items-center justify-center md:justify-end gap-4">
-              <div className="feature-icon">
-                <Zap size={28} />
-              </div>
-              <div>
-                <p className="font-semibold text-primary">Fast Dispatch</p>
-                <p className="text-sm text-gray-600">Order before 2 PM for today</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Products Section */}
-      <section id="products" className="py-20 md:py-28 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
-              Featured Products
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Explore our handpicked collection of premium college merchandise designed for the modern student
-            </p>
+            {/* Product Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {newProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  isWishlisted={wishlist.includes(product.id)}
+                  onToggleWishlist={() => toggleWishlist(product.id)}
+                  onAddToCart={() => handleAddToCart(product.id)}
+                />
+              ))}
+            </div>
           </div>
+        </section>
+      )}
+
+      {/* All Products Section */}
+      <section className="py-12 md:py-16 px-4 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
+            Featured Collection
+          </h2>
 
           {/* Product Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {products.map((product) => (
-              <div key={product.id} className="product-card">
-                {/* Product Image */}
-                <div className="product-image-wrapper">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    loading="lazy"
-                  />
-                  <button
-                    onClick={() => toggleWishlist(product.id)}
-                    className={`wish-btn ${wishlist.includes(product.id) ? 'active' : ''}`}
-                  >
-                    <Heart size={20} />
-                  </button>
-                </div>
-
-                {/* Product Info */}
-                <div className="p-5">
-                  <h3 className="font-bold text-lg text-primary mb-2">
-                    {product.name}
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    {product.description}
-                  </p>
-
-                  {/* Rating */}
-                  <div className="rating-badge mb-4">
-                    <div className="flex items-center gap-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          size={14}
-                          className={
-                            i < Math.floor(product.rating)
-                              ? "fill-accent text-accent"
-                              : "text-gray-300"
-                          }
-                        />
-                      ))}
-                    </div>
-                    <span className="text-sm font-semibold text-gray-700">
-                      {product.rating}
-                    </span>
-                  </div>
-
-                  {/* Price */}
-                  <p className="text-3xl font-bold text-primary mb-4">
-                    ₹{product.price}
-                  </p>
-
-                  {/* Buttons */}
-                  <div className="space-y-3">
-                    <Link
-                      to={`/product/${product.id}`}
-                      className="btn-secondary block text-center w-full"
-                    >
-                      View Details
-                    </Link>
-                    <button
-                      onClick={() => handleAddToCart(product.id)}
-                      className="btn-accent w-full justify-center"
-                    >
-                      <ShoppingCart size={18} />
-                      Add to Cart
-                    </button>
-                  </div>
-                </div>
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {allProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                isWishlisted={wishlist.includes(product.id)}
+                onToggleWishlist={() => toggleWishlist(product.id)}
+                onAddToCart={() => handleAddToCart(product.id)}
+              />
             ))}
           </div>
         </div>
       </section>
 
-      {/* Offers Section */}
-      <section id="offers" className="py-20 md:py-28 px-4 bg-gradient-to-b from-blue-50 to-white">
+      {/* Offers Banner */}
+      <section className="py-12 md:py-16 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
-              Special Offers
-            </h2>
-            <p className="text-lg text-gray-600">
-              Limited-time deals and exclusive discounts for students
-            </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-gradient-to-r from-blue-50 to-orange-50 rounded-xl p-8 md:p-12">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Special Offers
+              </h2>
+              <ul className="space-y-4 text-gray-700">
+                <li className="flex items-center gap-3">
+                  <span className="text-2xl">📦</span>
+                  <span><strong>Combo Deal:</strong> Hoodie + T-Shirt for ₹1,798 (Save ₹400)</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="text-2xl">🎓</span>
+                  <span><strong>Student Discount:</strong> 15% off with valid student ID</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="text-2xl">🚚</span>
+                  <span><strong>Free Shipping:</strong> On orders above ₹999</span>
+                </li>
+              </ul>
+            </div>
+            <div className="bg-gradient-to-br from-primary to-blue-700 text-white rounded-lg p-8 text-center">
+              <p className="text-lg font-semibold mb-4">Limited Time Offer</p>
+              <p className="text-4xl font-bold mb-4">15% Off</p>
+              <p className="text-sm opacity-90">Use code COLLEGE15 at checkout</p>
+            </div>
           </div>
+        </div>
+      </section>
 
-          {/* Offers Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {offers.map((offer) => (
-              <div key={offer.id} className="offer-card p-8">
-                <div className="offer-badge">
-                  {offer.discount}
-                </div>
+      {/* FAQ Section */}
+      <section className="py-12 md:py-16 px-4 bg-gray-50">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">
+            Frequently Asked Questions
+          </h2>
 
-                <h3 className="text-2xl font-bold text-primary mb-3">
-                  {offer.title}
-                </h3>
-
-                {offer.description && (
-                  <p className="text-gray-600 mb-6">{offer.description}</p>
-                )}
-
-                {offer.originalPrice && (
-                  <div className="space-y-2 mb-6">
-                    <p className="text-gray-500 line-through text-sm">
-                      {offer.originalPrice}
-                    </p>
-                    <p className="text-3xl font-bold text-primary">
-                      {offer.comboPrice}
-                    </p>
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-lg border border-gray-200 overflow-hidden"
+              >
+                <button
+                  onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
+                  className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+                >
+                  <h3 className="text-lg font-semibold text-gray-900 text-left">
+                    {faq.question}
+                  </h3>
+                  <ChevronDown
+                    size={20}
+                    className={`text-gray-500 transition-transform ${
+                      expandedFaq === index ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {expandedFaq === index && (
+                  <div className="px-6 py-4 border-t border-gray-200 bg-gray-50">
+                    <p className="text-gray-700">{faq.answer}</p>
                   </div>
                 )}
-
-                <button className="btn-accent w-full justify-center">
-                  Shop Offer
-                </button>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-20 md:py-28 px-4">
-        <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
-              Get In Touch
-            </h2>
-            <p className="text-lg text-gray-600">
-              Questions about bulk orders or custom merchandise? We're here to help!
-            </p>
-          </div>
-
-          {/* Contact Form */}
-          <form
-            onSubmit={handleFormSubmit}
-            className="bg-gradient-to-br from-blue-50 to-orange-50 rounded-2xl shadow-lg p-8 border border-blue-100"
+      {/* Contact CTA */}
+      <section className="py-12 md:py-16 px-4 bg-gradient-to-r from-primary to-blue-700 text-white">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Have a question?
+          </h2>
+          <p className="text-lg opacity-90 mb-8">
+            Bulk orders? Custom merchandise? Get in touch with us!
+          </p>
+          <a
+            href="#contact"
+            className="bg-white text-primary hover:bg-gray-100 px-8 py-3 rounded-full font-semibold transition-all inline-block"
           >
-            {/* Name */}
-            <div className="mb-6 input-field">
-              <label className="block text-sm font-semibold text-primary mb-3">
-                Full Name
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleFormChange}
-                required
-                placeholder="Your name"
-              />
-            </div>
-
-            {/* Email */}
-            <div className="mb-6 input-field">
-              <label className="block text-sm font-semibold text-primary mb-3">
-                Email Address
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleFormChange}
-                required
-                placeholder="your.email@example.com"
-              />
-            </div>
-
-            {/* Phone */}
-            <div className="mb-6 input-field">
-              <label className="block text-sm font-semibold text-primary mb-3">
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleFormChange}
-                required
-                placeholder="+91 98765 43210"
-              />
-            </div>
-
-            {/* Message */}
-            <div className="mb-8 input-field">
-              <label className="block text-sm font-semibold text-primary mb-3">
-                Message
-              </label>
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleFormChange}
-                required
-                rows={5}
-                placeholder="Tell us about your inquiry or bulk order needs..."
-              ></textarea>
-              <p className="text-xs text-gray-500 mt-2">
-                💡 Tip: Mention bulk orders or custom merchandise requests for faster response
-              </p>
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="btn-primary w-full"
-            >
-              Send Message
-            </button>
-          </form>
-
-          {/* Contact Info */}
-          <div className="mt-12 text-center">
-            <p className="text-gray-600 mb-2">
-              Or email us directly:
-            </p>
-            <a
-              href="mailto:merch@college.edu"
-              className="text-2xl font-bold text-accent hover:opacity-80 transition-opacity"
-            >
-              merch@college.edu
-            </a>
-          </div>
+            Contact Us
+          </a>
         </div>
       </section>
 
       {/* Footer */}
       <Footer />
     </div>
+  );
+}
+
+interface ProductCardProps {
+  product: Product;
+  isWishlisted: boolean;
+  onToggleWishlist: () => void;
+  onAddToCart: () => void;
+}
+
+function ProductCard({
+  product,
+  isWishlisted,
+  onToggleWishlist,
+  onAddToCart,
+}: ProductCardProps) {
+  return (
+    <Link
+      to={`/product/${product.id}`}
+      className="group bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow overflow-hidden"
+    >
+      {/* Image Container */}
+      <div className="relative bg-gray-100 aspect-square overflow-hidden">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          loading="lazy"
+        />
+        {product.isnew && (
+          <div className="absolute top-3 right-3 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+            New
+          </div>
+        )}
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            onToggleWishlist();
+          }}
+          className={`absolute top-3 left-3 w-10 h-10 rounded-full flex items-center justify-center transition-all ${
+            isWishlisted
+              ? "bg-red-500 text-white"
+              : "bg-white text-gray-700 hover:bg-gray-100"
+          }`}
+        >
+          <Heart size={20} fill={isWishlisted ? "currentColor" : "none"} />
+        </button>
+      </div>
+
+      {/* Content */}
+      <div className="p-4">
+        <h3 className="font-bold text-gray-900 mb-1 line-clamp-2">
+          {product.name}
+        </h3>
+        <p className="text-sm text-gray-600 mb-3 line-clamp-1">
+          {product.description}
+        </p>
+
+        {/* Rating */}
+        <div className="flex items-center gap-1 mb-3">
+          <div className="flex gap-0.5">
+            {[...Array(5)].map((_, i) => (
+              <Star
+                key={i}
+                size={14}
+                className={
+                  i < Math.floor(product.rating)
+                    ? "fill-yellow-400 text-yellow-400"
+                    : "text-gray-300"
+                }
+              />
+            ))}
+          </div>
+          <span className="text-sm text-gray-600">({product.rating})</span>
+        </div>
+
+        {/* Price and Button */}
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-xl font-bold text-gray-900">₹{product.price}</p>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              onAddToCart();
+            }}
+            className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-lg transition-all"
+          >
+            <Plus size={20} />
+          </button>
+        </div>
+      </div>
+    </Link>
   );
 }
